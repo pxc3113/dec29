@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>login</title>
+</head>
+<body>
+     <form class="form-inline" id="loginForm">
+       <table>
+         <tr>
+           <td>
+             	用户名：
+           </td>
+           <td>
+             	<input type="text" name="name" id="name" class="form-control">
+           </td>
+         </tr>
+          <tr>
+           <td>
+             	密码：
+           </td>
+           <td>
+             	<input type="password" id="password"  name="password" class="form-control">
+           </td>
+         </tr>
+         <tr>
+          <td colspan="2">
+             <input type="button" value="登录" onclick="login()" class="btn btn-success">
+             <input type="reset" value="重置" class="btn btn-danger">
+          </td>
+         </tr>
+       </table>
+     </form>
+</body>
+<script type="text/javascript">
+
+	function login(){
+        alert("hi")
+		var name=$("#name").val();
+		var password=$("#password").val();
+		if((name!=null&&name!="")&&(password!=null &&password!="") ){
+			$.ajax({
+				url:"<%=request.getContextPath()%>/company/login",
+				type:"post",
+				data:$("#loginForm").serialize(),
+				dataType:"json",
+				success:function(data){
+					if(data==1){
+						alert("username err");
+					}
+					else if(data==2){
+						alert("password err");
+					}
+					else {
+						location.href="<%=request.getContextPath()%>/index.html";
+					}
+				},error:function(){
+					alert("登录失败");
+				}
+			})
+		}else{
+			alert("用户名密码或者验证码是否填写了");
+		}
+	}
+
+
+//点击刷新验证码
+// $("#imgcode").click(function(){
+// 	 $("#imgcode").attr("src","<%=request.getContextPath()%>/company/imgcode.do?t="+new Date().getTime())
+// })
+
+</script>
+</html>
